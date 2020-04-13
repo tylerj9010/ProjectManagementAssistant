@@ -4,26 +4,37 @@
 <title>Account Management</title>
 </head>
 <body>
-	Project Manager: [NAME] <br>
-	Email: [EMAIL] [CHANGE EMAIL] <br>
-	[CHANGE PASSWORD] <br>
-	<br>
+	<table th:object="${teamManager}">
+		<tr>
+			<td>Project Manager:</td>
+			<td th:text="${teamManager.firstMame} + ' ' + ${teamManager.lastMame}"></td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td th:text="${teamManager.email}"></td>
+			<td><a th:href="@{/email/{id}(id=${teamManager.managerId)}">Update Email</a></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><a th:href="@{/password/{id}(id=${teamManager.managerId)}">Change password</a></td>
+		</tr>
+	</table>
 	Team Members <br>
 	<table>
 		<tr>
-		<td>ID</td>
-		<td>Name</td>
-		<td>Email</td>
-		<td>Edit</td>
-		<td>Delete</td>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Email</td>
+			<td>Edit</td>
+			<td>Delete</td>
 		</tr>
-			<tr th:each="currentMember : ${[TABLE]}">
-				<td th:text="${currentMember.id}" />
-				<td th:text="${currentMember.name}" />
-				<td th:text="${currentMember.email}" />
-				<td><a th:href="@{/edit/{id}(id=${currentContact.id})}">Edit</a></td>
-				<td><a th:href="@{/delete/{id}(id=${currentContact.id})}">Delete</a></td>
-			</tr>
+		<tr th:each="currentMember : ${TeamMember}">
+			<td th:text="${currentMember.id}" />
+			<td th:text="${currentMember.name}" />
+			<td th:text="${currentMember.email}" />
+			<td><a th:href="@{/editTeamMember/{id}(id=${currentMember.id})}">Edit</a></td>
+			<td><a th:href="@{/deleteTeamMember/{id}(id=${currentMember.id})}">Delete</a></td>
+		</tr>
 		</table>
 		<a href="../addTeamMember">Add Team Member</a>
 	
