@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Project Dashboard</title>
+</head>
+<body>
+	<table>
+	<!-- 
+	TO DO: 
+		ADD MY ACCOUNT OPTION TO DASH BOARD FOR PROJECT MANAGERS WAITING FOR PROJECT AUTHENTICATION
+		CSS
+	-->
+		<tr th:each="currentProject : ${Project}">
+			<td th:text="${currentProject.projectId}" />
+			<td th:text="${currentProject.managerId}" />
+			<td th:text="${currentProject.dateCreated}" />
+			<td><a th:href="@{/editProject/{projectId}(id=${currentProject.projectId})}">Edit</a></td>
+			<td><a th:href="@{/deleteProject/{projectId}(id=${currentProject.projectId})}">Delete</a></td>
+		</tr>
+		</table>
+		<a href="../addProject">Add New Project</a>
+	
+</body>
+</html>
