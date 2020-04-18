@@ -1,39 +1,63 @@
 package dmacc.beans;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
+@Table(name = "project")
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long projectId;
 	private String projectName;
 	private Date dateCreated;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "managerId", nullable = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private TeamManager managerId;
 	
+	@ManyToMany(fetch = FetchType.LAZY, 
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE 
+			})
+	@JoinTable(name = "projectmemberbridge", 
+			joinColumns = { @JoinColumn(name = "projectId")},
+			inverseJoinColumns = { @JoinColumn(name = "memberId")})
+	private Set<TeamMember> teamMembers = new HashSet<>();
+	
 	public Project() {}
 	
-	public Project(long projectId, String projectName, Date dateCreated) {
+	public Project(String projectName, Date dateCreated, TeamManager managerId) {
+		this.projectName = projectName;
+		this.dateCreated = dateCreated;
+		this.managerId = managerId;
+	}
+	
+	public Project(long projectId, String projectName, Date dateCreated, TeamManager managerId) {
 		this.projectId = projectId;
 		this.projectName = projectName;
 		this.dateCreated = dateCreated;
+		this.managerId = managerId;
 	}
-
+	
 	public long getProjectId() {
 		return projectId;
 	}
