@@ -1,5 +1,6 @@
 package dmacc.beans;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,11 +12,16 @@ import javax.persistence.Table;
 public class TeamManager {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "managerId")
 	private long managerId;
+	@Column(name = "firstName")
 	private String firstName;
+	@Column(name = "lastName")
 	private String lastName;
 	//TODO CHECK WHERE USERNAME AND PASSWORD FIT INTO PESISTENCE BEANS
+	@Column(name = "userName")
 	private String userName;
+	@Column(name = "password")
 	private String password;
 	
 	public TeamManager() {

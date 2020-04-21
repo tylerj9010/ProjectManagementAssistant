@@ -1,5 +1,6 @@
 package dmacc.beans;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,9 +18,13 @@ import org.hibernate.annotations.OnDeleteAction;
 public class UserStory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "storyId")
 	private long storyId;
+	@Column(name = "typeOfUser")
 	private String typeOfUser;
+	@Column(name = "task")
 	private String task;
+	@Column(name = "priority")
 	private String priority; //TODO CHANGE IN DB TO "priority" TO MATCH TASK TABLE
 	
 	@ManyToOne(fetch = FetchType.LAZY)

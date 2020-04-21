@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,12 +25,15 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "projectId")
 	private long projectId;
+	@Column(name = "projectName")
 	private String projectName;
+	@Column(name = "dateCreated")
 	private Date dateCreated;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "managerId", nullable = true)
+	@JoinColumn(name = "managerId")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private TeamManager managerId;
 	

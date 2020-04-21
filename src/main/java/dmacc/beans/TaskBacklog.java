@@ -2,6 +2,7 @@ package dmacc.beans;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,11 +20,17 @@ import org.hibernate.annotations.OnDeleteAction;
 public class TaskBacklog {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "taskId")
 	private long taskId;
+	@Column(name = "taskDescription")
 	private String taskDescription;
-	private String Status; //TODO CHANGE TO STRING IN DB
-	private String Priority;
+	@Column(name = "Status")
+	private String status; //TODO CHANGE TO STRING IN DB
+	@Column(name = "priority")
+	private String priority;
+	@Column(name = "targetDate")
 	private Date targetDate;
+	@Column(name = "completedDate")
 	private Date completedDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -42,8 +49,8 @@ public class TaskBacklog {
 	public TaskBacklog(String taskDescription, String status, String priority, Date targetDate, Date completedDate,
 			UserStory storyId, TeamMember memberId) {
 		this.taskDescription = taskDescription;
-		Status = status;
-		Priority = priority;
+		this.status = status;
+		this.priority = priority;
 		this.targetDate = targetDate;
 		this.completedDate = completedDate;
 		this.storyId = storyId;
@@ -54,8 +61,8 @@ public class TaskBacklog {
 			Date completedDate, UserStory storyId, TeamMember memberId) {
 		this.taskId = taskId;
 		this.taskDescription = taskDescription;
-		Status = status;
-		Priority = priority;
+		this.status = status;
+		this.priority = priority;
 		this.targetDate = targetDate;
 		this.completedDate = completedDate;
 		this.storyId = storyId;
@@ -79,19 +86,19 @@ public class TaskBacklog {
 	}
 
 	public String getStatus() {
-		return Status;
+		return status;
 	}
 
 	public void setStatus(String status) {
-		Status = status;
+		this.status = status;
 	}
 
 	public String getPriority() {
-		return Priority;
+		return priority;
 	}
 
 	public void setPriority(String priority) {
-		Priority = priority;
+		this.priority = priority;
 	}
 
 	public Date getTargetDate() {
@@ -128,8 +135,8 @@ public class TaskBacklog {
 
 	@Override
 	public String toString() {
-		return "TaskBacklog [taskId=" + taskId + ", taskDescription=" + taskDescription + ", Status=" + Status
-				+ ", Priority=" + Priority + ", targetDate=" + targetDate + ", completedDate=" + completedDate
+		return "TaskBacklog [taskId=" + taskId + ", taskDescription=" + taskDescription + ", Status=" + status
+				+ ", Priority=" + priority + ", targetDate=" + targetDate + ", completedDate=" + completedDate
 				+ ", storyId=" + storyId + ", memberId=" + memberId + "]";
 	}
 }
