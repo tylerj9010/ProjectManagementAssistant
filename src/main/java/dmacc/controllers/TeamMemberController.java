@@ -1,9 +1,12 @@
 package dmacc.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,7 +24,6 @@ public class TeamMemberController {
 	@GetMapping({"/viewAllTeamMembers"})
 	public String viewAllTeamMembers(Model model) {
 		if(repo.findAll().isEmpty()) {
-			System.out.println("EMPTY");
 			return addNewTeamMember(model);
 		}
 		model.addAttribute("teamMembers", repo.findAll());
@@ -35,22 +37,31 @@ public class TeamMemberController {
 		return "input";
 	}
 	
-	@GetMapping("/editTeamMember/{id}")
-	public String showTeamMemberToUpdate(@PathVariable("id") long id, Model model) {
-		TeamMember tm = repo.findById(id).orElse(null);
-		model.addAttribute("newTeamMember", tm);
-		return "input";
-	}
-	
-	@PostMapping("/updateTeamMember/{id}")
-	public String updateTeamMember(TeamMember tm, Model model) {
-		System.out.println("POST");
+	@PostMapping("/inputTeamMember")
+	public String addNewTeamMember(@ModelAttribute TeamMember tm, Model model) {
 		repo.save(tm);
 		return viewAllTeamMembers(model);
 	}
 	
-	@GetMapping("/deleteTeamMember/{id}")
-	public String deleteUser(@PathVariable("id") long id, Model model) {
+	@GetMapping("/editTeamMember/{memberId}")
+	public String showTeamMemberToUpdate(@PathVariable("memberId") long id, Model model) {
+		System.out.println(id);
+		TeamMember tm = repo.findById(id).orElse(null);
+		model.addAttribute("newTeamMember", tm);
+		System.out.println(tm.getMemberId());
+		return "input";
+	}
+	
+	@PostMapping("/updateTeamMember/{memberId}")
+	public String updateTeamMember(@PathVariable("memberId") long id, @Valid TeamMember tm, Model model) {
+		System.out.println(id);
+		System.out.println(tm.getMemberId());
+		repo.save(tm);
+		return viewAllTeamMembers(model);
+	}
+	
+	@GetMapping("/deleteTeamMember/{memberId}")
+	public String deleteUser(@PathVariable("memberId") long id, Model model) {
 		TeamMember tm = repo.findById(id).orElse(null);
 	    repo.delete(tm);
 	    return viewAllTeamMembers(model);
