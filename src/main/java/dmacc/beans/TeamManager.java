@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "teammanager")
+@Table(name = "TeamManager")
 public class TeamManager {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +18,6 @@ public class TeamManager {
 	private String firstName;
 	@Column(name = "lastName")
 	private String lastName;
-	//TODO CHECK WHERE USERNAME AND PASSWORD FIT INTO PESISTENCE BEANS
-	@Column(name = "userName")
-	private String userName;
-	@Column(name = "password")
-	private String password;
 	
 	public TeamManager() {
 	}
@@ -37,52 +32,33 @@ public class TeamManager {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-
-//	public TeamManager(long managerId, String firstName, String lastName, String userName, String password) {
-//		this.managerId = managerId;
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.userName = userName;
-//		this.password = password;
-//	}
 	
 	public long getManagerId() {
 		return managerId;
 	}
+	
 	public void setManagerId(long managerId) {
 		this.managerId = managerId;
 	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+	
 	public String getLastName() {
 		return lastName;
 	}
+	
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-//	public String getUserName() {
-//		return userName;
-//	}
-//	public void setUserName(String userName) {
-//		this.userName = userName;
-//	}
-//	public String getPassword() {
-//		return password;
-//	}
-//	public void setPassword(String password) {
-//		this.password = password;
-//	}
-	
 	@Override
 	public String toString() {
-		return "TeamManager [managerId=" + managerId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", userName=" + userName + ", password=" + password + "]";
+		return "TeamManager [managerId=" + managerId + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
-
-	
 }
