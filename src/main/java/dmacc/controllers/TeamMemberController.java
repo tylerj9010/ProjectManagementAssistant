@@ -54,14 +54,12 @@ public class TeamMemberController {
 	
 	@PostMapping("/updateTeamMember/{memberId}")
 	public String updateTeamMember(@PathVariable("memberId") long id, @Valid TeamMember tm, Model model) {
-		System.out.println(id);
-		System.out.println(tm.getMemberId());
 		repo.save(tm);
 		return viewAllTeamMembers(model);
 	}
 	
 	@GetMapping("/deleteTeamMember/{memberId}")
-	public String deleteUser(@PathVariable("memberId") long id, Model model) {
+	public String deleteTeamMember(@PathVariable("memberId") long id, Model model) {
 		TeamMember tm = repo.findById(id).orElse(null);
 	    repo.delete(tm);
 	    return viewAllTeamMembers(model);
