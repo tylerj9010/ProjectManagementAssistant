@@ -61,7 +61,7 @@ public class TeamManagerController {
 	}
 	
 	@GetMapping("/deleteTeamManager/{memberId}")
-	public String deleteUser(@PathVariable("memberId") long id, Model model) {
+	public String deleteTeamManager(@PathVariable("memberId") long id, Model model) {
 		TeamManager tm = repo.findById(id).orElse(null);
 	    repo.delete(tm);
 	    return viewAllTeamManagers(model);

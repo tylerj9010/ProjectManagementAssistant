@@ -1,6 +1,5 @@
 package dmacc.beans;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,17 +19,16 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "project")
-public class Project {
+public class Project extends AuditModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "projectId")
 	private long projectId;
 	@Column(name = "projectName")
 	private String projectName;
-	@Column(name = "dateCreated")
-	private Date dateCreated;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "managerId")
@@ -49,16 +47,14 @@ public class Project {
 	
 	public Project() {}
 	
-	public Project(String projectName, Date dateCreated, TeamManager managerId) {
+	public Project(String projectName, TeamManager managerId) {
 		this.projectName = projectName;
-		this.dateCreated = dateCreated;
 		this.managerId = managerId;
 	}
 	
-	public Project(long projectId, String projectName, Date dateCreated, TeamManager managerId) {
+	public Project(long projectId, String projectName, TeamManager managerId) {
 		this.projectId = projectId;
 		this.projectName = projectName;
-		this.dateCreated = dateCreated;
 		this.managerId = managerId;
 	}
 	
@@ -78,14 +74,6 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
 	public TeamManager getManagerId() {
 		return managerId;
 	}
@@ -96,7 +84,7 @@ public class Project {
 
 	@Override
 	public String toString() {
-		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", dateCreated=" + dateCreated
+		return "Project [projectId=" + projectId + ", projectName=" + projectName
 				+ ", managerId=" + managerId + "]";
 	}
 	

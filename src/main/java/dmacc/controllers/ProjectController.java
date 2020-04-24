@@ -1,5 +1,7 @@
 package dmacc.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +13,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import dmacc.beans.Project;
-import dmacc.beans.TeamMember;
+import dmacc.beans.TeamManager;
 import dmacc.repository.ProjectRepository;
+import dmacc.repository.TeamManagerRepository;
+
+//TODO may need to change mapping and return results based on application needs
 
 @Controller
 public class ProjectController {
 	
 	@Autowired
 	ProjectRepository projectRepo;
+	@Autowired
+	TeamManagerRepository managerRepo;
 
-	//TODO 
 	@GetMapping({"/viewYourProjects/{managerId}"})
 	public String viewYourProjects(@PathVariable ("managerId") long id, Model model) {
 		return null;
@@ -32,14 +38,16 @@ public class ProjectController {
 			return addNewProject(model);
 		}
 		model.addAttribute("projects", projectRepo.findAll());
-		return "projectResults";
+		return "projectDashboard";
 	}
 	
 	@GetMapping("/inputProject")
 	public String addNewProject(Model model) {
-		TeamMember tm = new TeamMember();
-		model.addAttribute("newTeamMember", tm);
-		return "input";
+		Project p = new Project();
+		model.addAttribute("newProject", p);
+		List<TeamManager> tms = managerRepo.findAll();
+		model.addAttribute("managers", tms);
+		return "newProject";
 	}
 	
 	@PostMapping("/inputProject/{projectId}")
