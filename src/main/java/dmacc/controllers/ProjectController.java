@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import dmacc.beans.Project;
 import dmacc.beans.TeamManager;
+import dmacc.beans.TeamMember;
 import dmacc.repository.ProjectRepository;
 import dmacc.repository.TeamManagerRepository;
+import dmacc.repository.TeamMemberRepository;
 
 //TODO may need to change mapping and return results based on application needs
 
@@ -25,7 +27,7 @@ public class ProjectController {
 	@Autowired
 	ProjectRepository projectRepo;
 	@Autowired
-	TeamManagerRepository managerRepo;
+	TeamMemberRepository memberRepo;
 
 	@GetMapping({"/viewYourProjects/{managerId}"})
 	public String viewYourProjects(@PathVariable ("managerId") long id, Model model) {
@@ -45,9 +47,9 @@ public class ProjectController {
 	public String addNewProject(Model model) {
 		Project p = new Project();
 		model.addAttribute("newProject", p);
-		List<TeamManager> tms = managerRepo.findAll();
-		model.addAttribute("managers", tms);
-		return "newProject";
+		List<TeamMember> tms = memberRepo.findAll();
+		model.addAttribute("members", tms);
+		return "newproject";
 	}
 	
 	@PostMapping("/inputProject/{projectId}")
@@ -60,7 +62,16 @@ public class ProjectController {
 	public String showProjectToUpdate(@PathVariable("projectId") long id, Model model) {
 		Project p = projectRepo.findById(id).orElse(null);
 		model.addAttribute("newProject", p);
-		return "projectResults";
+		List<TeamMember> tms = memberRepo.findAll();
+		model.addAttribute("members", tms);
+		return "newproject";
+	}
+	
+	@GetMapping("/details/{projectId}")
+	public String showProject(@PathVariable("projectId") long id, Model model) {
+		Project p = projectRepo.findById(id).orElse(null);
+		model.addAttribute("project", p);
+		return "projectdetails";
 	}
 	
 	@GetMapping("/deleteProject/{projectId}")
