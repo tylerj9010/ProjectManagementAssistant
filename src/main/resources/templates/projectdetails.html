@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Project Details</title>
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<fieldset>
+	<table>
+		<tr>
+			<td th:text="${project.projectName}" />
+		</tr>
+		<tr>
+			<td th:text="'Priority: ' + ${project.priority}" />
+		</tr>
+		<tr>
+			<td th:text="${project.description}" />
+		</tr>
+		</table>
+		<a href="/viewAllProjects">Back</a>
+	</fieldset>
+</body>
+</html>
