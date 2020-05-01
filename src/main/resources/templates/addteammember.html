@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
-<title>Project Management Assistant</title>
+<title>Project Management Assistant | Add Team Member</title>
 </head>
 <body>
 	<h1>Project Management Assistant</h1>
-	<h3>Register below <a href="/login">Back to login</a></h3>
-	<form th:action="@{/registration}" th:object="${Users}" method="post">
+
+		<h3><a href="/projectdashboard">Go back to project view</a> | 
+		<a href="/logout">Logout</a></h3>
+
+	<form th:action="@{/addteammember}" th:object="${Users}" method="post">
+	<input type="hidden" th:field="*{registrationType}" th:value="addteammember" />
     <div>
         <label>First Name:</label>
         <input th:field="*{firstName}"/>
@@ -38,7 +42,5 @@
     </div>
     <button type="submit">submit</button>
 </form>
- 
-<a th:href="@{/login.html}">login</a>
 </body>
 </html>

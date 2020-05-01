@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
@@ -29,6 +30,10 @@ public class TeamMember {
 	private String firstName;
 	@Column(name = "lastName")
 	private String lastName;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "userId")
+	private Users user;
 	
 	public TeamMember() {
 	}
@@ -66,6 +71,14 @@ public class TeamMember {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
 	}
 
 	@Override
