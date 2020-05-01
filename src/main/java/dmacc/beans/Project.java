@@ -1,5 +1,9 @@
 package dmacc.beans;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,9 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @SuppressWarnings("serial")
 @Entity
@@ -21,26 +29,35 @@ public class Project extends AuditModel{
 	private long projectId;
 	@Column(name = "projectName")
 	private String projectName;
-	@Column(name = "description")
-	private String description;
-	@Column(name = "priority")
-	private String priority;
-	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "memberId", nullable = true)
-	private TeamMember owner;
+	@JoinColumn(name = "managerId")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private TeamManager managerId;
+	
+	@ManyToMany(fetch = FetchType.LAZY, 
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE 
+			})
+	@JoinTable(name = "projectmemberbridge", 
+			joinColumns = { @JoinColumn(name = "projectId")},
+			inverseJoinColumns = { @JoinColumn(name = "memberId")})
+	private Set<TeamMember> teamMembers = new HashSet<>();
 	
 	public Project() {}
-
-	public Project(long projectId, String projectName, String description, String priority, TeamMember owner) {
+	
+	public Project(String projectName, TeamManager managerId) {
+		this.projectName = projectName;
+		this.managerId = managerId;
+	}
+	
+	public Project(long projectId, String projectName, TeamManager managerId) {
 		this.projectId = projectId;
 		this.projectName = projectName;
-		this.description = description;
-		this.priority = priority;
-		this.owner = owner;
+		this.managerId = managerId;
 	}
-
+	
 	public long getProjectId() {
 		return projectId;
 	}
@@ -57,35 +74,18 @@ public class Project extends AuditModel{
 		this.projectName = projectName;
 	}
 
-	public String getDescription() {
-		return description;
+	public TeamManager getManagerId() {
+		return managerId;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
-	public TeamMember getOwner() {
-		return owner;
-	}
-
-	public void setOwner(TeamMember owner) {
-		this.owner = owner;
+	public void setManagerId(TeamManager managerId) {
+		this.managerId = managerId;
 	}
 
 	@Override
 	public String toString() {
-		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", description=" + description
-				+ ", priority=" + priority + ", owner=" + owner + "]";
+		return "Project [projectId=" + projectId + ", projectName=" + projectName
+				+ ", managerId=" + managerId + "]";
 	}
-	
 	
 }

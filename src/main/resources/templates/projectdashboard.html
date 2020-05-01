@@ -2,22 +2,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Project Dashboard</title>
-<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<fieldset>
 	<table>
-		<tr th:each="currentProject : ${projects}" >
+	<!-- 
+	TO DO: 
+		ADD MY ACCOUNT OPTION TO DASH BOARD FOR PROJECT MANAGERS WAITING FOR PROJECT AUTHENTICATION
+		CSS
+	-->
+		<tr th:each="currentProject : ${Project}">
 			<td th:text="${currentProject.projectId}" />
-			<td th:text="${currentProject.projectName}"/>
-			<td th:text="${currentProject.owner.firstName}" />
+			<td th:text="${currentProject.managerId}" />
 			<td th:text="${currentProject.dateCreated}" />
-			<td><a th:href="@{/details/{projectId}(projectId=${currentProject.projectId})}" >Details</a></td>
-			<td><a th:href="@{/editProject/{projectId}(projectId=${currentProject.projectId})}" >Edit</a></td>
-			<td><a th:href="@{/deleteProject/{projectId}(projectId=${currentProject.projectId})}" >Delete</a></td>
+			<td><a th:href="@{/editProject/{projectId}(id=${currentProject.projectId})}">Edit</a></td>
+			<td><a th:href="@{/deleteProject/{projectId}(id=${currentProject.projectId})}">Delete</a></td>
 		</tr>
 		</table>
-		<a href="/inputProject">Add New Project</a>
-	</fieldset>
+		<a href="../addProject">Add New Project</a>
+	
 </body>
 </html>
