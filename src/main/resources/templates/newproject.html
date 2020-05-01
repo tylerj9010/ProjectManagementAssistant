@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>New Project</title>
+</head>
+
+<body>
+
+	<form 
+		th:object="${newProject}" 
+		th:action="@{/inputProject/{projectId}(projectId=${newProject.projectId})}" 
+		method=POST>	
+			Project Name: <input name="projectName" size="20" th:field="*{projectName}"><br />
+			Project Description: <input name="description" size="20" th:field="*{description}"><br />
+			<select id="prioriy" th:field="*{priority}" required>
+				 	<option value="" >Pick Priority</option>
+					<option value="Low">Low</option>
+					<option value="Medium">Medium</option>
+					<option value="High">High</option>
+			</select>
+	
+			<select id="owner" th:field="*{owner}" required>
+				
+				 	<option value="" >Who will manage this project</option>
+				 	
+					<option th:each="currentOwner: ${owners}" 
+						th:value="${currentOwner.memberId}"
+						th:text="${currentOwner.memberId} + ${currentOwner.firstName} + ${currentOwner.LastName}">
+					</option>
+					
+			</select>
+	
+			<input name="Submit" type="submit" value="submit" />
+	</form>
+	<a href="../viewAllProjects">View All Projects</a>
+	
+</body>
+
+</html>

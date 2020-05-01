@@ -18,11 +18,7 @@ public class TeamManager {
 	private String firstName;
 	@Column(name = "lastName")
 	private String lastName;
-	//TODO CHECK WHERE USERNAME AND PASSWORD FIT INTO PESISTENCE BEANS
-	@Column(name = "userName")
-	private String userName;
-	@Column(name = "password")
-	private String password;
+	
 	
 	public TeamManager() {
 	}
@@ -65,6 +61,11 @@ public class TeamManager {
 		this.lastName = lastName;
 	}
 
+	@Override
+	public String toString() {
+		return "TeamManager [managerId=" + managerId + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+	}
+
 //	public String getUserName() {
 //		return userName;
 //	}
@@ -77,12 +78,7 @@ public class TeamManager {
 //	public void setPassword(String password) {
 //		this.password = password;
 //	}
-	
-	@Override
-	public String toString() {
-		return "TeamManager [managerId=" + managerId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", userName=" + userName + ", password=" + password + "]";
-	}
+
 
 	
 }
