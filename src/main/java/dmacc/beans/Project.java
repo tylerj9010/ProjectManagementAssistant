@@ -26,19 +26,22 @@ public class Project extends AuditModel {
 	@Column(name = "priority")
 	private String priority;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "managerId", nullable = true)
+	private TeamManager teamManager;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "memberId", nullable = true)
-	private TeamMember owner;
+	private TeamMember teamMember;
 	
 	public Project() {}
 
-	public Project(long projectId, String projectName, String description, String priority, TeamMember owner) {
+	public Project(long projectId, String projectName, String description, String priority, TeamManager teamManager, TeamMember teamMember) {
 		this.projectId = projectId;
 		this.projectName = projectName;
 		this.description = description;
 		this.priority = priority;
-		this.owner = owner;
+		this.teamMember = teamMember;
 	}
 
 	public long getProjectId() {
@@ -73,19 +76,25 @@ public class Project extends AuditModel {
 		this.priority = priority;
 	}
 
-	public TeamMember getOwner() {
-		return owner;
+	public TeamManager getTeamManager() {
+		return teamManager;
 	}
 
-	public void setOwner(TeamMember owner) {
-		this.owner = owner;
+	public void setTeamManager(TeamManager teamManager) {
+		this.teamManager = teamManager;
+	}
+
+	public TeamMember getTeamMember() {
+		return teamMember;
+	}
+
+	public void setTeamMember(TeamMember teamMember) {
+		this.teamMember = teamMember;
 	}
 
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", description=" + description
-				+ ", priority=" + priority + ", owner=" + owner + "]";
+				+ ", priority=" + priority + ", teamManager=" + teamManager + ", teamMember=" + teamMember + "]";
 	}
-	
-	
 }

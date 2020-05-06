@@ -19,14 +19,24 @@ public class Users {
 	@Column(name = "password")
 	private String password;
 	
-	public long getId() {
+	public Users() {
+		super();
+	}
+
+	public Users(long userId, String email, String password) {
+		this.userId = userId;
+		this.email = email;
+		this.password = password;
+	}
+	
+	public long getUserId() {
 		return userId;
 	}
-	
-	public void setId(long userId) {
+
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -41,5 +51,5 @@ public class Users {
 	
 	public void setPassword(String password) {
 		this.password = password;
-	}
+	}	
 }

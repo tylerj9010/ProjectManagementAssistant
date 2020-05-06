@@ -1,39 +1,41 @@
 package dmacc.beans;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "teammember")
+@Table(name = "team_member")
 public class TeamMember {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "memberId")
 	private long memberId;
 	@Column(name = "firstName")
+	@NotNull
+    @NotEmpty
 	private String firstName;
 	@Column(name = "lastName")
+	@NotNull
+    @NotEmpty
 	private String lastName;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "member_user_id")
 	private Users user;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "manager_id")
+	private TeamManager teamManager;
 	
 	public TeamMember() {
 	}
@@ -79,6 +81,14 @@ public class TeamMember {
 
 	public void setUser(Users user) {
 		this.user = user;
+	}
+
+	public TeamManager getTeamManager() {
+		return teamManager;
+	}
+
+	public void setTeamManager(TeamManager teamManager) {
+		this.teamManager = teamManager;
 	}
 
 	@Override

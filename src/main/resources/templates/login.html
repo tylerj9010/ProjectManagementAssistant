@@ -1,29 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template.html}">
 <head>
-<meta charset="UTF-8">
-<title>Project Management Assistant | Login</title>
+<title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Login</title>
 </head>
 <body>
-	<h1>Project Management Assistant</h1>
-	<h3>Login below <a href="/registration">Register</a></h3>
-	<form th:action="@{/login}" method="post">
-		<p th:if="${param.error}" class="error">Wrong user or password</p>
-		<table>
-			<tr>
-				<td>Email:</td>
-				<td><input type="email" name="username" /></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type="password" name="password" /></td>
-			</tr>
-			<tr>
-				<td><input type="submit" name="submit" value="submit" /></td>
-			</tr>
-		</table>
-	</form>
-	
-	
+	<section layout:fragment="custom-content">
+		<h3>For developers by developers.<br />Stay on top of your software development projects using this simple and easy to use tool.</h3>
+		<form th:action="@{/login}" method="post">
+			<div class="col alert alert-danger" th:if="${param.error}">Wrong user or password</div>
+			<label class="sr-only" for="email">Email:</label>
+			<input id="email" class="form-control first-fld" type="email" name="username" placeholder="Email Address" required />
+			<label class="sr-only" for="password">Password:</label>
+			<input id="password" class="form-control last-fld" type="password" name="password" placeholder="Password" required />
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			<div class="row">
+			  <div class="col">Are you a team manager? <br /> <a href="/registration">Register here to get started</a></div>
+			</div>
+		</form>
+	</section>
 </body>
 </html>

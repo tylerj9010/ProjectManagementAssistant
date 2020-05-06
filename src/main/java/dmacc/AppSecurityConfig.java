@@ -3,6 +3,7 @@ package dmacc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -27,6 +28,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
 	}
+	
+	@Bean("authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+            return super.authenticationManagerBean();
+    }
 	
 	@Bean
 	public DaoAuthenticationProvider authProvider() {
@@ -53,7 +60,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/index", "/registration", "/css/*", "/js/*", "/img/*").permitAll() 
+				.antMatchers("/", "/index", "/registration", "/registration_conf", "/css/*", "/js/*", "/img/*").permitAll() 
 				.anyRequest().authenticated() // Everything outside of root needs to be authenticated
 				.and()
 			.formLogin()

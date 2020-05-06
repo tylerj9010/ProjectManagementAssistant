@@ -7,18 +7,11 @@ import dmacc.validation.FieldMatch;
 import dmacc.validation.ValidEmail;
 import dmacc.validation.ValidPassword;
 
-@FieldMatch.List({
-    @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
-})
-public class UserDto {
-	@NotNull
-    @NotEmpty
-    private String firstName;
-     
-    @NotNull
-    @NotEmpty
-    private String lastName;
-     
+
+@FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
+public class ChangeEmailPasswordDto { 
+	private long userId;
+	
     @NotNull
     @NotEmpty
     @ValidPassword
@@ -33,20 +26,12 @@ public class UserDto {
     @NotEmpty
     private String email;
 
-	public String getFirstName() {
-		return firstName;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getPassword() {

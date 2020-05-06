@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TeamManager")
+@Table(name = "team_manager")
 public class TeamManager {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class TeamManager {
 	private String lastName;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "manager_user_id")
 	private Users user;
 	
 	public TeamManager() {
