@@ -2,12 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{template.html}">
 <head>
-<title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Registration</title>
+<title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Add Team Member</title>
 </head>
 <body>
 	<section layout:fragment="custom-content">
-		<h3>For developers by developers.<br />Stay on top of your software development projects using this simple and easy to use tool.</h3>
-		<form th:action="@{/registration}" th:object="${Users}" method="post">
+		<form th:action="@{/addteammember}" th:object="${Users}" method="post">
 			<div class="col alert alert-danger" th:if="${#fields.hasGlobalErrors()}"
 					th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</div>
 					
@@ -27,10 +26,7 @@
 			<label class="sr-only" for="matchingPassword">Confirm Password:</label>
 			<input type="password" class="form-control last-fld" th:field="*{matchingPassword}" placeholder="Confirm Password" required />
 			<div class="col alert alert-danger" th:each="error: ${#fields.errors('matchingPassword')}" th:text="${error}">Validation error</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-			<div class="row">
-			  <div class="col"><a href="/login">Back to login</a></div>
-			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Add Team Member</button>
 		</form>
 	</section>
 </body>

@@ -1,9 +1,10 @@
 package dmacc.beans;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,21 +14,28 @@ public class MyUserDetails implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String userName;
+	private String email;
 	private String password;
-	private List<GrantedAuthority> authorities;
+	private List<AuthGroup> authGroups;
 	
-	public MyUserDetails(User user) {
-		this.userName = user.getUsername();
+	public MyUserDetails(Users user, List<AuthGroup> authGroups) {
+		this.email = user.getEmail();
 		this.password = user.getPassword();
-		this.authorities = Arrays.stream(user.getRole().split(","))
-				.map(SimpleGrantedAuthority::new)
-				.collect(Collectors.toList());
+		this.authGroups = authGroups;
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {	
-		return authorities;
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if (null == authGroups) {
+			return Collections.emptySet();
+		}
+		
+		Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
+		authGroups.forEach(group -> {
+			grantedAuthorities.add(new SimpleGrantedAuthority(group.getAuthGroup()));
+		});
+		
+		return grantedAuthorities;
 	}
 
 	@Override
@@ -37,7 +45,7 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return userName;
+		return email;
 	}
 
 	@Override

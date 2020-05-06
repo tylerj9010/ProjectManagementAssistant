@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template.html}">
+<head>
+<title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Registration</title>
+</head>
+<body>
+	<section layout:fragment="custom-content">
+		<h3>For developers by developers.<br />Stay on top of your software development projects using this simple and easy to use tool.</h3>
+		
+		<h3>Thank you for registering!</h3>
+
+		<div class="row">
+		  <div class="col"><a href="/login">Back to login</a></div>
+		</div>
+	</section>
+</body>
+</html>

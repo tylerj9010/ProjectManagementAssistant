@@ -1,7 +1,5 @@
 package dmacc.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,61 +12,59 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import dmacc.beans.Project;
 import dmacc.beans.TeamManager;
-import dmacc.beans.TeamMember;
+
 import dmacc.repository.ProjectRepository;
-import dmacc.repository.TeamManagerRepository;
 import dmacc.repository.TeamMemberRepository;
 
-//TODO may need to change mapping and return results based on application needs
 
 @Controller
 public class ProjectController {
-	
 	@Autowired
 	ProjectRepository projectRepo;
 	@Autowired
-	TeamMemberRepository memberRepo;
-
-	@GetMapping({"/viewYourProjects/{managerId}"})
-	public String viewYourProjects(@PathVariable ("managerId") long id, Model model) {
-		return null;
-	}
+	TeamMemberRepository tMemberRepo;
+	@Autowired
+	HomeController homeController;
 	
-	@GetMapping({"/viewAllProjects"})
-	public String viewAllProjects(Model model) {
-		if(projectRepo.findAll().isEmpty()) {
-			return addNewProject(model);
-		}
-		model.addAttribute("projects", projectRepo.findAll());
-		return "projectDashboard";
-	}
 	
 	@GetMapping("/inputProject")
 	public String addNewProject(Model model) {
+		model.addAttribute("yourAccount", homeController.getLoggedInUser());
 		Project p = new Project();
 		model.addAttribute("newProject", p);
-		List<TeamMember> tms = memberRepo.findAll();
-		model.addAttribute("members", tms);
+	    model.addAttribute("team_members", tMemberRepo.findByTeamManager((TeamManager) homeController.getLoggedInUser()));
 		return "newproject";
 	}
 	
 	@PostMapping("/inputProject/{projectId}")
 	public String addNewProject(@PathVariable("projectId") long id, @Valid @ModelAttribute Project p, Model model) {
+		Project existingProject = projectRepo.findById(id).orElse(null);
+		if (existingProject != null) {
+			p.setDateCreated(existingProject.getDateCreated());
+			p.setTeamManager(existingProject.getTeamManager());
+		} else {
+		    TeamManager teamManager = (TeamManager) homeController.getLoggedInUser();
+			p.setTeamManager(teamManager);
+		}
+		
 		projectRepo.save(p);
-		return viewAllProjects(model);
+		
+		return "redirect:/projectdashboard";
 	}
 	
 	@GetMapping("/editProject/{projectId}")
 	public String showProjectToUpdate(@PathVariable("projectId") long id, Model model) {
+		model.addAttribute("yourAccount", homeController.getLoggedInUser());
 		Project p = projectRepo.findById(id).orElse(null);
 		model.addAttribute("newProject", p);
-		List<TeamMember> tms = memberRepo.findAll();
-		model.addAttribute("members", tms);
-		return "newproject";
+		TeamManager teamManager = p.getTeamManager();
+	    model.addAttribute("team_members", tMemberRepo.findByTeamManager(teamManager));
+	    return "newproject";
 	}
 	
 	@GetMapping("/details/{projectId}")
 	public String showProject(@PathVariable("projectId") long id, Model model) {
+		model.addAttribute("yourAccount", homeController.getLoggedInUser());
 		Project p = projectRepo.findById(id).orElse(null);
 		model.addAttribute("project", p);
 		return "projectdetails";
@@ -78,7 +74,6 @@ public class ProjectController {
 	public String deleteProject(@PathVariable("projectId") long id, Model model) {
 		Project p = projectRepo.findById(id).orElse(null);
 		projectRepo.delete(p);
-		return viewAllProjects(model);
+		return "redirect:/projectdashboard";
 	}
-	
 }

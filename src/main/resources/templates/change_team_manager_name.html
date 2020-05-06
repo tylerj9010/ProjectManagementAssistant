@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template.html}">
+<head>
+<title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Change Name</title>
+</head>
+<body>
+	<section layout:fragment="custom-content">
+		<form th:action="@{/updateTeamManagerName}" th:object="${TeamManager}" method="post">
+			<input type="hidden" th:field="*{managerId}"/>
+			<input type="hidden" th:field="*{user}"/>				
+			<label class="sr-only" for="firstName">First Name:</label>
+			<input class="form-control first-fld" th:field="*{firstName}" placeholder="First Name" required />
+			<div class="col alert alert-danger" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</div>
+
+			<label class="sr-only" for="lastName">Last Name:</label>
+			<input class="form-control last-fld" th:field="*{lastName}" placeholder="Last Name" required />
+			<div class="col alert alert-danger" th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</div>
+			
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Change Name</button>
+		</form>
+	</section>
+</body>
+</html>
